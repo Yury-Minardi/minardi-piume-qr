@@ -1,0 +1,19 @@
+MINARDI PIUME - PUBBLICAZIONE CON RENDER
+========================================
+1. Crea un repository Git privato contenente il progetto SENZA la cartella data/ o file .env.
+2. Collega il repository a Render e crea un nuovo Blueprint a partire da render.yaml.
+3. Inserisci BOOTSTRAP_ADMIN_PASSWORD (almeno 12 caratteri) quando Render lo chiede.
+4. Render genera il dominio HTTPS *.onrender.com. La app lo riconosce tramite RENDER_EXTERNAL_HOSTNAME.
+5. Verifica che /api/health restituisca {"status":"ok"}.
+6. Vai al sito HTTPS pubblico, fai login con c.mascia@minardipiume.it e la password temporanea.
+7. Al primo login DEVI cambiare la password nel modulo di sicurezza. La nuova password
+   disconnette le sessioni precedenti. Rimuovi BOOTSTRAP_ADMIN_PASSWORD dalle variabili
+   d'ambiente dopo il primo accesso; per cambi futuri usa la dashboard.
+8. Apri I miei QR Code e scarica il PDF della locandina con QR tracciato.
+9. PROVA il QR da uno smartphone su rete mobile (non solo Wi-Fi).
+10. Conserva backup del disco persistente. Render richiede un servizio a pagamento con disco;
+    controlla prezzi e conferma la spesa prima della creazione.
+11. Non sostituire il QR già stampato senza testarne la leggibilità e la destinazione.
+12. Per dominio personalizzato qr.minardipiume.it: crea e verifica il dominio nella dashboard
+    Render, configura il record DNS richiesto e imposta BASE_URL=https://qr.minardipiume.it.
+    SOLO DOPO questa modifica scarica/stampa la versione definitiva.

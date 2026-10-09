@@ -1,0 +1,83 @@
+MINARDI PIUME | BACKOFFICE SCANSIONI QR
+===================================
+
+1) FUNZIONAMENTO E LIMITAZIONE IMPORTANTE
+Il QR del PDF originale è un QR STATICO che porta direttamente a:
+https://www.minardipiume.it/index-english.html
+NON si possono contabilizzare le scansioni di quel QR in questo nuovo software.
+Serve sostituirlo con il QR generato da questo sistema, che reindirizza alla stessa pagina.
+Le statistiche di QR.io restano su QR.io e non sono importate.
+
+2) PROVA SU UN PC WINDOWS
+- Installa Python 3.11 o successivo da python.org (opzione "Add Python to PATH").
+- Doppio clic su AVVIA_WINDOWS.bat; al primo avvio servono Internet e qualche minuto per le dipendenze.
+- Crea l'utente amministratore con email e password di almeno 12 caratteri.
+- Si apre http://127.0.0.1:8080/dashboard
+- Il server resta attivo finché rimane aperta la finestra nera.
+- Se vuoi vedere dati simulati, clicca "Carica dati dimostrativi" (marcati come DEMO).
+- Per reimpostare password: REIMPOSTA_PASSWORD_WINDOWS.bat.
+
+3) QUANDO SI VUOLE CONTARE SCANSIONI IN FIERA
+Il server DEVE essere raggiungibile da Internet da smartphone, con dominio e HTTPS.
+Esempio di indirizzo da configurare: https://qr.minardipiume.it
+Questo indirizzo NON è stato creato né pubblicato da questo progetto.
+Prima di creare, scaricare o stampare QR definitivi:
+- configurare DNS, hosting e reverse proxy HTTPS;
+- impostare BASE_URL=... oppure il valore "base_url" in config.json;
+- riavviare il server;
+- generare un NUOVO PNG o PDF e verificare su due telefoni mobili in 4G/5G.
+Senza hosting pubblico, i QR del test locale NON sono utilizzabili in fiera.
+
+4) FUNZIONI
+- Login con password sicura (PBKDF2) e sessione.
+- Aggiunta/modifica/pausa QR dinamici (URL di destinazione configurabile).
+- Registrazione scansioni con ora italiana, sistema operativo, browser, dispositivo.
+- Stima visite uniche tramite hash giornaliero dell'IP e browser: non identificazione certa.
+- Grafico trend e filtri 7/30/90 giorni, tutto lo storico o intervallo personalizzato.
+- Paese disponibile se l'infrastruttura Cloudflare comunica l'header CF-IPCountry.
+- Città e Paesi tramite GeoLite2 City (opzionale): salva il database GeoLite2-City.mmdb
+  nella cartella data/; senza database, le città appaiono come 'Non disponibile'.
+  Ottieni GeoLite2 dai canali ufficiali MaxMind nel rispetto delle condizioni di licenza.
+- Esportazione CSV; esportazione QR PNG con logo; locandina PDF derivata dall'esempio originale.
+- Demo con scansioni SIMULATE rimovibili (non conteggi reali).
+
+5) DEPLOY SERVER LINUX / DOCKER
+- Modifica docker-compose.yml con un BASE_URL effettivamente configurato.
+- Terminale: docker compose build
+- Prima creazione utente: docker compose run --rm minardi-qr python main.py --init
+- Avvio: docker compose up -d
+- Configura un reverse proxy HTTPS (Caddy, Nginx) verso 127.0.0.1:8080.
+- Usa certificato SSL/TLS valido e verifica le scansioni dai dispositivi esterni.
+- Proteggi il server, aggiorna le dipendenze, imposta backup per la cartella data/.
+- COOKIE_SECURE=1 serve dietro HTTPS. TRUST_PROXY=1 SOLO se l'app non è raggiungibile
+  direttamente dall'esterno, dietro reverse proxy attendibile.
+
+6) PRIVACY, SICUREZZA E BACKUP
+Il sistema NON archivia indirizzi IP in chiaro; salva hash derivati da IP+User Agent
+con rotazione giornaliera. Le scansioni uniche sono stime, non persone certificate.
+Esclude alcuni bot/prefetch comuni, ma non tutti. L'header del Paese può essere assente.
+La raccolta dati in occasione di una fiera richiede valutazioni privacy/informativa.
+Il database SQLite vive in data/minardi_qr.sqlite3: effettua backup anche del file WAL
+(o usa uno snapshot coerente/backup SQLite). Non mettere la cartella data sul web.
+In produzione limita l'accesso al backoffice, usa HTTPS e una password forte.
+
+7) QR STAMPATO
+Il PDF originalissimo è in assets/locandina_originale.pdf.
+Dal backoffice puoi scaricare una versione con NUOVO QR del tracciamento e grafica simile.
+Esegui comunque un test reale di lettura prima della stampa in tipografia.
+
+NOTE: Questo pacchetto è una soluzione self-hosted, non un sito già pubblicato.
+
+8) VERSIONE RENDER PRONTA AL DEPLOY
+- Usa render.yaml e GUIDA_PUBBLICAZIONE_RENDER.txt.
+- Email bootstrap: c.mascia@minardipiume.it.
+- Password temporanea: deve essere immessa COME SEGRETO in Render, non nel repository.
+- Al primo accesso il pannello chiede il cambio password.
+- Una volta cambiata, il sistema invalida le altre sessioni.
+- La funzione per cambiare la password è sempre disponibile cliccando sulla mail in alto a destra.
+- Il dominio HTTPS automatico onrender.com è riconosciuto automaticamente.
+- Render richiede un piano A PAGAMENTO se vuoi usare il disco persistente con SQLite.
+
+9) STATO DELLA PUBBLICAZIONE
+- Il file è configurato per essere pubblicato, ma non è un sito già online.
+- Occorre collegare un account Render e pubblicare il progetto prima che esistano credenziali attive.

@@ -1,0 +1,24 @@
+# Render Blueprint per Minardi Piume QR Analytics.
+# Il database SQLite necessita di un disco persistente, disponibile con piano a pagamento.
+services:
+  - type: web
+    name: minardi-piume-qr
+    runtime: docker
+    plan: 0.1c-256mb
+    region: frankfurt
+    healthCheckPath: /api/health
+    disk:
+      name: minardi-qr-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /app/data
+      - key: COOKIE_SECURE
+        value: '1'
+      - key: TRUST_PROXY
+        value: '1'
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        value: c.mascia@minardipiume.it
+      - key: BOOTSTRAP_ADMIN_PASSWORD
+        sync: false
