@@ -5,3 +5,4 @@ Pillow>=10,<13
 PyMuPDF>=1.23,<2
 tzdata>=2025.1
 geoip2>=4.8,<6
+itsdangerous>=2.2,<3
